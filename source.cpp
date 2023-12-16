@@ -6,24 +6,28 @@ using namespace std::chrono;
 
 int main()
 {
+    system("chcp 1251");
     int n;
     cin >> n;
-    int **natrix1 = new int *[n];
-    int **natrix2 = new int *[n];
-    int **natrix3 = new int *[n];
+    int **matrix1 = new int *[n];
+    int **matrix2 = new int *[n];
+    int **matrix3 = new int *[n];
+    int **matrixTransp = new int *[n];
     for (int i = 0; i < n; i++)
     {
-        natrix1[i] = new int[n];
-        natrix2[i] = new int[n];
-        natrix3[i] = new int[n];
+        matrixTransp[i] = new int[n];
+        matrix1[i] = new int[n];
+        matrix2[i] = new int[n];
+        matrix3[i] = new int[n];
     }
     for (int i = 0; i < n; i++)
         for (int j = 0; j < n; j++)
         {
-            natrix1[i][j] = rand() % 100;
-            natrix2[i][j] = rand() % 100;
+            matrix1[i][j] = rand() % 100;
+            matrix2[i][j] = rand() % 100;
         }
-    //äëèííîå óìíîæåíèå ìàòğèö
+
+    // Ğ´Ğ»Ğ¸Ğ½Ğ½Ğ¾Ğµ ĞºĞ¼Ğ½Ğ¾Ğ¶ĞµĞ½Ğ¸Ğµ Ğ¼Ğ°Ñ‚Ñ€Ğ¸Ñ†
     auto t1 = steady_clock::now();
     for (int i = 0; i < n; i++)
     {
@@ -32,16 +36,21 @@ int main()
             int sum = 0;
             for (int a = 0; a < n; a++)
             {
-                sum += natrix1[i][a] * natrix2[a][j];
+                sum += matrix1[i][a] * matrix2[a][j];
             }
-            natrix3[i][j] = sum;
+            matrix3[i][j] = sum;
         }
     }
     auto t2 = steady_clock::now();
     auto time = duration<double>(t2 - t1).count();
     cout << "Time slow: " << time << " sec." << endl;
 
-    //áûñòğîå óìíîæåíèå ìàòğèö
+    // Ñ‚Ñ€Ğ°Ğ½ÑĞ¿Ğ¾Ğ½Ğ¸Ñ€Ğ¾Ğ²Ğ°Ğ½Ğ¸Ğµ Ğ¼Ğ°Ñ‚Ñ€Ğ¸Ñ†Ñ‹
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            matrixTransp[j][i] = matrix2[i][j];
+
+    // Ğ±Ñ‹ÑÑ‚Ñ€Ğ¾Ğµ ÑƒĞ¼Ğ½Ğ¾Ğ¶ĞµĞ½Ğ¸Ğµ Ğ¼Ğ°Ñ‚Ñ€Ğ¸Ñ†
     t1 = steady_clock::now();
     for (int i = 0; i < n; i++)
     {
@@ -50,9 +59,9 @@ int main()
             int sum = 0;
             for (int a = 0; a < n; a++)
             {
-                sum += natrix1[i][a] * natrix2[j][a];
+                sum += matrix1[i][a] * matrix2[j][a];
             }
-            natrix3[i][j] = sum;
+            matrix3[i][j] = sum;
         }
     }
     t2 = steady_clock::now();
