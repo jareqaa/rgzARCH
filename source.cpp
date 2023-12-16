@@ -6,7 +6,6 @@ using namespace std::chrono;
 
 int main()
 {
-    system("chcp 1251");
     int n;
     cin >> n;
     int **matrix1 = new int *[n];
